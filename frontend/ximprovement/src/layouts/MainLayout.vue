@@ -16,7 +16,13 @@
     </q-header>
 
     <q-drawer v-model="left" side="left" bordered>
-      <!-- drawer content -->
+      <div class="fit background">
+        <div class="fit q-pt-md" style="background-color: rgb(0,0,0,.5)">
+          <form-login
+            :loginInformations="formLogin"
+          />
+        </div>
+      </div>
     </q-drawer>
 
     <q-drawer v-model="right" side="right" bordered>
@@ -34,15 +40,22 @@
 
 <script>
 import GuestList from '../components/GuestList.vue'
+import FormLogin from '../components/FormLogin.vue'
 export default {
   components: {
-    'guest-list': GuestList
+    'guest-list': GuestList,
+    'form-login': FormLogin
   },
   data () {
     return {
       left: false,
       right: false,
-      guestList: []
+      guestList: [],
+      // Form Login Variables
+      formLogin: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
@@ -57,4 +70,6 @@ export default {
 <style lang="stylus">
   .layoutTitle
     font-family 'mainFont'
+  .background
+    background-image url('../statics/images/background.jpg')
 </style>
