@@ -15,6 +15,8 @@ routes.post('/sessions', SessionController.store);
 routes.get('/events', EventController.index);
 routes.get('/events/:id', EventController.index);
 
+routes.post('/employees', EmployeeController.store);
+
 routes.use(authMiddleware);
 
 routes.put('/users', UserController.update);
@@ -22,6 +24,5 @@ routes.put('/users', UserController.update);
 routes.post('/events', EventController.store);
 routes.put('/events', EventController.update);
 
-routes.post('/employees', EmployeeController.store);
 
 export default routes;
