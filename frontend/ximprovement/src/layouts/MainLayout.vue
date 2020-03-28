@@ -3,7 +3,7 @@
 
     <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar>
-        <!-- <q-btn dense flat round icon="menu" @click="left = !left" /> -->
+        <q-btn dense flat round icon="fas fa-sign-in-alt" @click="left = !left" />
 
         <q-toolbar-title>
           <div class="row text-h5 layoutTitle full-width justify-center">
@@ -20,22 +20,35 @@
     </q-drawer>
 
     <q-drawer v-model="right" side="right" bordered>
-      <!-- drawer content -->
+      <guest-list
+        :guestList="guestList"
+      />
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view  @showGuestList="showGuestList"/>
     </q-page-container>
 
   </q-layout>
 </template>
 
 <script>
+import GuestList from '../components/GuestList.vue'
 export default {
+  components: {
+    'guest-list': GuestList
+  },
   data () {
     return {
       left: false,
-      right: false
+      right: false,
+      guestList: []
+    }
+  },
+  methods: {
+    showGuestList (guestList) {
+      this.guestList = guestList
+      this.right = !this.right
     }
   }
 }
