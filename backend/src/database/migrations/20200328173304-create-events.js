@@ -16,6 +16,14 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
+      description: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+      },
+      place: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+      },
     });
   },
 

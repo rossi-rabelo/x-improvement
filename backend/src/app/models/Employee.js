@@ -1,17 +1,16 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Event extends Model {
+class Employee extends Model {
   static init(sequelize) {
     super.init(
       {
         name: Sequelize.STRING,
+        email: Sequelize.STRING,
         maxCompanion: Sequelize.INTEGER,
-        description: Sequelize.STRING,
-        place: Sequelize.STRING,
       },
       {
         sequelize,
-        tableName: 'events',
+        tableName: 'employees',
       }
     );
 
@@ -19,11 +18,11 @@ class Event extends Model {
   }
 
   static associate(models) {
-    this.belongsToMany(models.Employee, {
+    this.belongsToMany(models.Event, {
       through: 'eventsEmployees',
-      foreignKey: 'idEmployee',
+      foreignKey: 'idEvent',
     });
   }
 }
 
-export default Event;
+export default Employee;
