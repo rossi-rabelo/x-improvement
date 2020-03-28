@@ -10,6 +10,9 @@
             <q-icon color="positive" name="fas fa-check" />
           </q-item-section>
           <q-item-section>{{ guest.name }}</q-item-section>
+          <q-item-section side>
+            <q-icon v-if="authenticated" @click="removeGuest" name="fas fa-minus-circle" color="negative" />
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -25,10 +28,18 @@ export default {
       default: () => {
         return []
       }
+    },
+    authenticated: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {}
+  },
+  methods: {
+    removeGuest () {
+    }
   }
 }
 </script>

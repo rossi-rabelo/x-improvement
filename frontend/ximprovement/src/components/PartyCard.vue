@@ -14,8 +14,12 @@
         </div>
         <q-separator class="q-my-xs" color="grey"/>
         <div class="row q-mt-md justify-between">
-          <q-btn color="positive" icon-right="fas fa-glass-cheers" label="Tenho Interesse!" @click="showSubscriptionDialog"/>
-          <q-btn color="primary" icon-right="fas fa-clipboard-list" label="Confirmados" @click="showGuestList"/>
+          <div class="col-xs-12 col-md-6 text-left q-pr-sm">
+            <q-btn color="positive" class="fit dense" icon-right="fas fa-glass-cheers" label="Tenho Interesse!" @click="showSubscriptionDialog"/>
+          </div>
+          <div class="col-xs-12 col-md-6 text-right q-pl-sm">
+            <q-btn color="primary" class="fit dense" icon-right="fas fa-clipboard-list" label="Confirmados" @click="showGuestList"/>
+          </div>
         </div>
       </div>
     </q-slide-transition>
