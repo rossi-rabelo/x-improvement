@@ -2,9 +2,9 @@ import Sequelize from 'sequelize';
 
 import databaseConfig from '../config/database';
 
-import User from '../app/models/User';
-import Event from '../app/models/Event';
-import Employee from '../app/models/Employee';
+import User from '../app/models/Users';
+import Event from '../app/models/Events';
+import Employee from '../app/models/Employees';
 
 const models = [User, Event, Employee];
 

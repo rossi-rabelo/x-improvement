@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
-import Event from '../models/Event';
-import Employee from '../models/Employee';
+import Event from '../models/Events';
+import Employee from '../models/Employees';
 
 class EventController {
   async store(req, res) {

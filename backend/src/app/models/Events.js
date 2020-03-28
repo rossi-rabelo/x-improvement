@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Event extends Model {
+class Events extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -19,11 +19,11 @@ class Event extends Model {
   }
 
   static associate(models) {
-    this.belongsToMany(models.Employee, {
+    this.belongsToMany(models.Employees, {
       through: 'eventsEmployees',
       foreignKey: 'idEmployee',
     });
   }
 }
 
-export default Event;
+export default Events;
