@@ -10,11 +10,18 @@ class Employee extends Model {
       },
       {
         sequelize,
-        tableName: 'employees'
+        tableName: 'employees',
       }
     );
 
     return this;
+  }
+
+  static associate(models) {
+    this.belongsToMany(models.Event, {
+      through: 'eventsEmployees',
+      foreignKey: 'idEvent',
+    });
   }
 }
 

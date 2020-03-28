@@ -6,6 +6,8 @@ class Event extends Model {
       {
         name: Sequelize.STRING,
         maxCompanion: Sequelize.INTEGER,
+        description: Sequelize.STRING,
+        place: Sequelize.STRING,
       },
       {
         sequelize,
@@ -14,6 +16,13 @@ class Event extends Model {
     );
 
     return this;
+  }
+
+  static associate(models) {
+    this.belongsToMany(models.Employee, {
+      through: 'eventsEmployees',
+      foreignKey: 'idEmployee',
+    });
   }
 }
 

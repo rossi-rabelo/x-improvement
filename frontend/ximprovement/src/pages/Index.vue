@@ -5,19 +5,28 @@
       :key="event.id"
       :eventInformation="event"
       @showGuestList="showGuestList"
+      @showSubscriptionDialog="showSubscriptionDialog"
+    />
+    <subscription-dialog
+      v-model="dialogModel"
+      :event="selectedEvent"
     />
   </q-page>
 </template>
 
 <script>
 import PartyCard from 'src/components/PartyCard'
+import SubscriptionDialog from 'src/components/SubscriptionDialog'
 export default {
   name: 'PageIndex',
   components: {
-    'party-card': PartyCard
+    'party-card': PartyCard,
+    'subscription-dialog': SubscriptionDialog
   },
   data () {
     return {
+      dialogModel: false,
+      selectedEvent: {},
       events: [
         {
           id: '1',
@@ -57,6 +66,10 @@ export default {
         return element.id === eventId
       }).guestList
       this.$emit('showGuestList', guestList)
+    },
+    showSubscriptionDialog (event) {
+      this.dialogModel = true
+      this.selectedEvent = event
     }
   }
 }

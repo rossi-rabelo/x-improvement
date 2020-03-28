@@ -14,7 +14,7 @@
         </div>
         <q-separator class="q-my-xs" color="grey"/>
         <div class="row q-mt-md justify-between">
-          <q-btn color="positive" icon-right="fas fa-glass-cheers" label="Tenho Interesse!" />
+          <q-btn color="positive" icon-right="fas fa-glass-cheers" label="Tenho Interesse!" @click="showSubscriptionDialog"/>
           <q-btn color="primary" icon-right="fas fa-clipboard-list" label="Confirmados" @click="showGuestList"/>
         </div>
       </div>
@@ -46,6 +46,9 @@ export default {
     },
     showGuestList () {
       this.$emit('showGuestList', this.eventInformation.id)
+    },
+    showSubscriptionDialog () {
+      this.$emit('showSubscriptionDialog', this.eventInformation)
     }
   }
 }
