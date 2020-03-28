@@ -17,7 +17,9 @@ password varchar(100) not null);
 create table events
 (id varchar(32) not null primary key,
 maxCompanion int not null default 0,
-name varchar(100) not null);
+name varchar(100) not null,
+description varchar(100),
+place varchar(100));
 
 create table eventsEmployees
 (idEvent varchar(32) not null,
