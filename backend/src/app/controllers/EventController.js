@@ -66,7 +66,11 @@ class EventController {
       'inner join eventsEmployees ee on e.id = ee.idEvent ' +
       'inner join employees on ee.idEmployee = employees.id  ' +
       'inner join eventsEmployeesCompanions eec on eec.idEventEmployee = ee.id ' +
-      'inner join companions c on eec.idCompanion = c.id ';
+      'inner join companions c on eec.idCompanion = c.id ' +
+      'union ' +
+      'select e.id eventId, e.name eventName, e.maxCompanion eventCompanion, e.description eventDescription, e.place eventPlace, e.image eventImage, null employeeId, null employeeEmail, null employeeName, null companionId, null companionName ' +
+      'from ' +
+      'events e ';
     const event = await DataBase.connection.query(selectQuery);
     const eventArray = [];
     const employeeArray = [];
@@ -77,6 +81,7 @@ class EventController {
         !companionArray.find(function (element) {
           return element.id == elem.companionId;
         })
+        && elem.companionId
       ) {
         companionArray.push({ id: elem.companionId, name: elem.companionName });
       }
@@ -87,6 +92,7 @@ class EventController {
         !employeeArray.find(function (element) {
           return element.id == elem.employeeId;
         })
+        && elem.employeeId
       ) {
         employeeArray.push({
           id: elem.employeeId,
@@ -101,7 +107,7 @@ class EventController {
       if (
         !eventArray.find(function (element) {
           return element.id == elem.eventId;
-        })
+        }) && elem.eventId
       ) {
         eventArray.push({
           id: elem.eventId,
