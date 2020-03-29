@@ -1,13 +1,6 @@
 import * as Yup from 'yup';
-
-import sequelize, { Sequelize } from 'sequelize';
 import Event from '../models/Event';
 import DataBase from '../../database/index';
-import Employee from '../models/Employee';
-import EventEmployee from '../models/EventEmployee';
-import Companion from '../models/Companion';
-import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
-import e from 'express';
 
 class EventController {
   async store(req, res) {
