@@ -34,7 +34,7 @@
 
     <q-drawer v-model="right" side="right" bordered>
       <guest-list
-        :guestList="guestList"
+        :employees="employees"
         :eventId="selectedEventId"
         :authenticated="authenticated"
       />
@@ -68,7 +68,7 @@ export default {
     return {
       left: false,
       right: false,
-      guestList: [],
+      employees: [],
       selectedEventId: '',
       authenticated: false,
       // Form Login Variables
@@ -79,9 +79,9 @@ export default {
     }
   },
   methods: {
-    showGuestList (guestList, eventId) {
+    showGuestList (employees, eventId) {
       this.selectedEventId = eventId
-      this.guestList = guestList
+      this.employees = employees
       this.right = !this.right
     },
     setAuthenticated () {

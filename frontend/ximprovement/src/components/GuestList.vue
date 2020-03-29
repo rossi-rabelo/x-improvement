@@ -3,11 +3,11 @@
     <div class="row text-h6 q-pa-md text-center text-white guestListTitle">
       Lista de confirmados:
     </div>
-    <div class="row">
+    <div v-if="employees.length > 0" class="row">
       <q-expansion-item
         class="full-width"
         dense-toggle
-        v-for="guest in guestList"
+        v-for="guest in employees"
         :key="guest.id"
         header-class="bg-primary text-white"
         expand-separator
@@ -33,6 +33,9 @@
         </q-card>
       </q-expansion-item>
     </div>
+    <div v-else class="text-white q-pa-md">
+      Ainda não há pessoas confirmadas para esse evento.
+    </div>
     <dialog-remove
       v-model="dialogModel"
       :guest="selectedGuest"
@@ -49,7 +52,7 @@ export default {
     'dialog-remove': DialogRemoveGuest
   },
   props: {
-    guestList: {
+    employees: {
       type: Array,
       default: () => {
         return []

@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="model" @hide="hideDialog" @show="verifyCompanionsNumber" persistent>
+  <q-dialog v-model="model" @hide="hideDialog" @show="verifymaxCompanion" persistent>
     <q-card class="cardDialog">
       <q-card-section>
         <div class="text-h6">{{ event.name }}</div>
@@ -16,8 +16,8 @@
         <div class="row q-mt-sm full-width justify-center">
           <div class="row q-mt-sm full-width justify-start">
             <q-btn round color="secondary"
-              v-if="event.companionsNumber > 1"
-              :disable="formSubscription.companionsList.length >= event.companionsNumber"
+              v-if="event.maxCompanion > 1"
+              :disable="formSubscription.companionsList.length >= event.maxCompanion"
               icon="fas fa-plus"
               @click="pushNewCompanion"
             />
@@ -36,7 +36,7 @@
                 />
               </div>
               <div class="col-2">
-                <q-btn round flat color="negative" icon="fas fa-minus" size="xs" @click="removeCompanion(index)"/>
+                <q-btn v-if="event.maxCompanion > 1" round flat color="negative" icon="fas fa-minus" size="xs" @click="removeCompanion(index)"/>
               </div>
             </div>
           </div>
@@ -59,6 +59,25 @@ export default {
   watch: {
     value: function () {
       this.model = this.value
+    }
+  },
+  computed: {
+    exitInformations: function () {
+      return {
+        Employee: {
+          name: this.formSubscription.name,
+          email: this.formSubscription.email,
+          maxCompanion: 2
+        },
+        Companions: this.formSubscription.companionsList.filter((element) => {
+          return element !== ''
+        }).map((element) => {
+          return { name: element }
+        }),
+        Event: {
+          id: this.event.id
+        }
+      }
     }
   },
   props: {
@@ -84,8 +103,8 @@ export default {
     hideDialog () {
       this.$emit('input', false)
     },
-    verifyCompanionsNumber () {
-      if (this.event.companionsNumber > 0 && this.formSubscription.companionsList.length === 0) {
+    verifymaxCompanion () {
+      if (this.event.maxCompanion > 0 && this.formSubscription.companionsList.length === 0) {
         this.formSubscription.companionsList.push('')
       }
     },
@@ -96,7 +115,17 @@ export default {
       this.formSubscription.companionsList.splice(index, 1)
     },
     sendInformations () {
-      this.$emit('input', false)
+      this.$q.loading.show({
+        delay: 400 // ms
+      })
+      this.$axios.post('http://localhost:3333/employees', this.exitInformations).then((response) => {
+        this.$q.loading.hide()
+        console.log(response)
+        // this.$emit('input', false)
+      }).catch(() => {
+        this.$q.loading.hide()
+        this.loginFailed('Não foi possível se inscrever no evento!')
+      })
     },
     resetInformations () {
       this.formSubscription = {
