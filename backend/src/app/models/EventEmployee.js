@@ -17,7 +17,7 @@ class EventEmployee extends Model {
   }
 
   static associate(models) {
-    this.belongsToMany(models.Companion, {
+    this.belongsToMany(models.EventEmployeeCompanion, {
       through: 'eventsEmployeesCompanions',
       foreignKey: 'idEventEmployee',
     });

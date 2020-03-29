@@ -4,6 +4,7 @@ import Event from '../models/Event';
 import Employee from '../models/Employee';
 import EventEmployee from '../models/EventEmployee';
 import Companion from '../models/Companion';
+import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
 
 class EventController {
   async store(req, res) {
@@ -66,7 +67,7 @@ class EventController {
               model: EventEmployee,
               include: [
                 {
-                  model: Companion,
+                  model: EventEmployeeCompanion,
                 },
               ],
               // through: { attributes: [] },

@@ -31,7 +31,8 @@ class EmployeeController {
     
     if (employeeInEvent)
     {
-      await await EventEmployeeCompanion.destroy({ where : { idEventEmployee: employeeInEvent.dataValues.id } });
+      await EventEmployeeCompanion.destroy({ where : { idEventEmployee: employeeInEvent.dataValues.id } });
+      await EventEmployee.destroy({ where : { idEmployee: employeeInEvent.dataValues.idEmployee, idEvent: employeeInEvent.dataValues.idEvent } });
     }
 
     const eventEmployeeSave = {
