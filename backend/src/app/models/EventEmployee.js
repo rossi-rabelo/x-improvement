@@ -27,9 +27,9 @@ class EventEmployee extends Model {
     //   foreignKey: 'idEvent',
     // });
 
-    this.hasMany(models.Employee, {
-      foreignKey: 'id',
-    });
+    // this.hasMany(models.Employee, {
+    //   foreignKey: 'id',
+    // });
   }
 }
 
