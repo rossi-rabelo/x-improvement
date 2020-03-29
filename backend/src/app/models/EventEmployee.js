@@ -34,3 +34,4 @@ class EventEmployee extends Model {
 }
 
 export default EventEmployee;
+
