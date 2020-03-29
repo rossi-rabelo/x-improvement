@@ -7,7 +7,7 @@
         </div>
       </div>
     </q-img>
-    <q-slide-transition>
+    <q-slide-transition @hide="hideGuestList">
       <div v-show="visible" style="padding: 15px">
         <div class="full-width descriptionBody text-body1">
           {{ eventInformation.description }}
@@ -53,6 +53,9 @@ export default {
     },
     showSubscriptionDialog () {
       this.$emit('showSubscriptionDialog', this.eventInformation)
+    },
+    hideGuestList () {
+      this.$emit('hideGuestList')
     }
   }
 }

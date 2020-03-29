@@ -3,7 +3,8 @@
 
     <q-header reveal elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn dense flat round icon="fas fa-sign-in-alt" @click="left = !left" />
+        <q-btn v-if="authenticated" dense flat round icon="fas fa-sign-out-alt" @click="left = !left" />
+        <q-btn v-else dense flat round icon="fas fa-sign-in-alt" @click="left = !left" />
 
         <q-toolbar-title>
           <div class="row text-h5 layoutTitle full-width justify-center">
@@ -18,8 +19,14 @@
     <q-drawer v-model="left" side="left" bordered>
       <div class="fit background">
         <div class="fit q-pt-md" style="background-color: rgb(0,0,0,.5)">
+          <welcome-screen
+            v-if="authenticated"
+            @logout="logout"
+          />
           <form-login
+            v-else
             :loginInformations="formLogin"
+            @authenticated="setAuthenticated"
           />
         </div>
       </div>
@@ -28,11 +35,13 @@
     <q-drawer v-model="right" side="right" bordered>
       <guest-list
         :guestList="guestList"
+        :eventId="selectedEventId"
+        :authenticated="authenticated"
       />
     </q-drawer>
 
     <q-page-container>
-      <router-view  @showGuestList="showGuestList"/>
+      <router-view  @showGuestList="showGuestList" @hideGuestList="hideGuestList"/>
     </q-page-container>
 
   </q-layout>
@@ -41,16 +50,27 @@
 <script>
 import GuestList from '../components/GuestList.vue'
 import FormLogin from '../components/FormLogin.vue'
+import WelcomeScreen from '../components/WelcomeScreen.vue'
 export default {
   components: {
     'guest-list': GuestList,
-    'form-login': FormLogin
+    'form-login': FormLogin,
+    'welcome-screen': WelcomeScreen
+  },
+  created () {
+    if (this.$q.localStorage.has('authtoken')) {
+      this.authenticated = true
+    } else {
+      this.authenticated = false
+    }
   },
   data () {
     return {
       left: false,
       right: false,
       guestList: [],
+      selectedEventId: '',
+      authenticated: false,
       // Form Login Variables
       formLogin: {
         email: '',
@@ -59,9 +79,19 @@ export default {
     }
   },
   methods: {
-    showGuestList (guestList) {
+    showGuestList (guestList, eventId) {
+      this.selectedEventId = eventId
       this.guestList = guestList
       this.right = !this.right
+    },
+    setAuthenticated () {
+      this.authenticated = true
+    },
+    logout () {
+      this.authenticated = false
+    },
+    hideGuestList () {
+      this.right = false
     }
   }
 }
