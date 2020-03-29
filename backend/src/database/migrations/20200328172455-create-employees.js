@@ -16,11 +16,6 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      maxCompanion: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 1,
-      },
     });
   },
 
