@@ -24,6 +24,9 @@ export default {
     'party-card': PartyCard,
     'subscription-dialog': SubscriptionDialog
   },
+  created () {
+    this.getEventList()
+  },
   data () {
     return {
       dialogModel: false,
@@ -79,6 +82,9 @@ export default {
     },
     hideGuestList () {
       this.$emit('hideGuestList')
+    },
+    getEventList () {
+
     }
   }
 }

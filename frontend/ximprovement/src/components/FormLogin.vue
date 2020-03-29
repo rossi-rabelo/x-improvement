@@ -50,10 +50,11 @@ export default {
         })
         this.$axios.post('http://localhost:3333/sessions', this.formLogin).then((response) => {
           this.$q.loading.hide()
-          console.log(response)
+          this.$q.localStorage.set('authtoken', response.data.token)
           this.$emit('authenticated')
-        }).catch((err) => {
-          console.error(err)
+        }).catch(() => {
+          this.$q.loading.hide()
+          this.loginFailed('Não foi possível logar com essas informações!')
         })
       }
     },
