@@ -1,10 +1,12 @@
 import * as Yup from 'yup';
 
 import Event from '../models/Event';
+import DataBase from '../../database/index'
 import Employee from '../models/Employee';
 import EventEmployee from '../models/EventEmployee';
 import Companion from '../models/Companion';
 import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
+import sequelize, { Sequelize } from 'sequelize';
 
 class EventController {
   async store(req, res) {
@@ -57,27 +59,41 @@ class EventController {
   }
 
   async index(req, res) {
-    const event = await Event.findAll({
-      include: [
-        {
-          model: Employee,
-          through: { attributes: [] },
-          include: [
-            {
-              model: EventEmployee,
-              include: [
-                {
-                  model: EventEmployeeCompanion,
-                },
-              ],
-              // through: { attributes: [] },
-            },
-          ],
-        },
-      ],
-    });
+    
+  const selectQuery = " select e.id eventId, e.name eventName, e.maxCompanion eventCompanion, e.description eventDescription, employees.id employeeId, employees.email employeeEmail, employees.name employeeName, c.id companionId, c.name companionName " +
+  "from " +
+  "events e " +
+  "inner join eventsemployees ee on e.id = ee.idEvent " +
+  "inner join employees on ee.idEmployee = employees.id  " +
+  "inner join eventsemployeescompanions eec on eec.idEventEmployee = ee.id " +
+  "inner join companions c on eec.idCompanion = c.id ";
+  const event = await DataBase.connection.query(selectQuery);
+  const eventArray = [];
+  const employeeArray = [];
+  const companionArray = [];
 
-    return res.json(event);
+  event[0].forEach(elem => {
+    if (!companionArray.find(function(element) { return element.id == elem.companionId }))
+    {
+      companionArray.push({ id: elem.companionId, name: elem.companionName });
+    }
+  });
+
+  event[0].forEach(elem => {
+    if (!employeeArray.find(function(element) { return element.id == elem.employeeId }))
+    {
+      employeeArray.push({ id: elem.employeeId, name: elem.employeeName, email: elem.employeeEmail, companions: companionArray });
+    }
+  });
+
+  event[0].forEach(elem => {
+    if (!eventArray.find(function(element) { return element.id == elem.eventId }))
+    {
+      eventArray.push({ id: elem.eventId, name: elem.name, maxCompanion: elem.eventCompanion, employees: employeeArray });
+    }
+  });
+
+    return res.json(eventArray);
   }
 }
 
