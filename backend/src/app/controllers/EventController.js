@@ -7,6 +7,7 @@ import Employee from '../models/Employee';
 import EventEmployee from '../models/EventEmployee';
 import Companion from '../models/Companion';
 import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
+import e from 'express';
 
 class EventController {
   async store(req, res) {
@@ -111,7 +112,10 @@ class EventController {
       ) {
         eventArray.push({
           id: elem.eventId,
-          name: elem.name,
+          name: elem.eventName,
+          description: elem.eventDescription,
+          place: elem.eventPlace,
+          image: elem.eventImage,
           maxCompanion: elem.eventCompanion,
           employees: employeeArray,
         });
