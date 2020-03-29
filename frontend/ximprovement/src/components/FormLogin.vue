@@ -10,7 +10,7 @@
       <q-input v-model="loginInformations.password" bg-color="white" outlined type="password" label="Password" />
     </div>
     <div class="row full-width justify-center q-mt-md">
-      <q-btn rounded color="positive" label="Entrar" icon="directions" />
+      <q-btn rounded color="positive" label="Entrar" icon="directions" @click="login" />
     </div>
   </div>
 </template>
@@ -27,7 +27,29 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      // Error messages
+      incorrectFieldMessage: 'Preencha os dados corretamente!'
+    }
+  },
+  methods: {
+    login () {
+      if (this.loginInformations.email === '' || this.loginInformations.password === '') {
+        this.loginFailed(this.incorrectFieldMessage)
+      } else {
+
+      }
+    },
+    loginFailed (message) {
+      this.$q.notify({
+        color: 'negative',
+        textColor: 'white',
+        icon: 'fas fa-info',
+        message: message,
+        position: 'top',
+        timeout: 300
+      })
+    }
   }
 }
 </script>
