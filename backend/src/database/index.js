@@ -5,8 +5,11 @@ import databaseConfig from '../config/database';
 import User from '../app/models/Users';
 import Event from '../app/models/Events';
 import Employee from '../app/models/Employees';
+import EventEmployeeCompanion from '../app/models/EventEmployeeCompanion'
+import EventEmployee from '../app/models/EventEmployee'
+import Companion from '../app/models/Companion'
 
-const models = [User, Event, Employee];
+const models = [User, Event, Employee, EventEmployeeCompanion, EventEmployee, Companion];
 
 class Database {
   constructor() {

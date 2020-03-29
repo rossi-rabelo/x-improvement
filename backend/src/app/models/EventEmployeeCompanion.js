@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class EventEmplooyeeCompanion extends Model {
+class EventEmployeeCompanion extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -17,4 +17,4 @@ class EventEmplooyeeCompanion extends Model {
   }
 }
 
-export default EventEmplooyeeCompanion;
+export default EventEmployeeCompanion;

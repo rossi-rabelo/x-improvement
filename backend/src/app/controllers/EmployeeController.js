@@ -1,6 +1,5 @@
-import * as Yup from 'yup';
 import Employee from '../models/Employees';
-import EventEmplooyeeCompanion from '../models/EventEmplooyeeCompanion';
+import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
 import Companion from '../models/Companion';
 import EventEmployee from '../models/EventEmployee';
 import Events from '../models/Events';
@@ -11,9 +10,9 @@ class EmployeeController {
     const companions = req.body.Companions;
     const event = req.body.Event;
 
-    const event = await Events.findOne({ where: { id: event.id } });
+    const existedEvent = await Events.findOne({ where: { id: event.id } });
 
-    if (companions.length > event.dataValues.maxCompanion)
+    if (companions.length > existedEvent.dataValues.maxCompanion)
     {
       return res.status(400).json({ error: 'Companions exceeded!' });
     }
@@ -25,50 +24,64 @@ class EmployeeController {
 
     if (!employeeExits)
     {
-      employeeExits = await createEmployeeReturnId(employee);
+      employeeExits = await this.createEmployeeReturnId(employee);
     }
 
     const idEmployee = employeeExits.dataValues.id;
+    console.log(event.id, 'eventid')
+    console.log(idEmployee, 'idemployee')
 
-    const employeeInEvent = await getEventEmployeeByIds(event.id, idEmployee);
+    const employeeInEvent = await EventEmployee.findOne({ where: { idEvent: event.id, idEmployee: idEmployee } });
+    console.log(employeeInEvent, 'employee in event')
     
     if (employeeInEvent)
     {
-      await deleteEventsEmployeeCompanionByIdEmployee(employeeInEvent.dataValues.id);
+      await this.deleteEventsEmployeeCompanionByIdEmployee(employeeInEvent.dataValues.id);
     }
 
-    const idEventEmployee = await this.createEventEmployeeReturnId(event.id, employee.id);
-    const existsCompanions = createCompanionsPopulateArray(companions);
+    const eventEmployee = {
+      idEvent: event.id,
+      idEmployee: idEmployee
+    }
 
-    existsCompanions.forEach(element => {
-      const eventEmployeeCompanion = {
-        idEventEmployee: idEventEmployee,
-        idCompanion: element.id,
-      }
+    await EventEmployee.create(eventEmployee);
 
-      await EventEmplooyeeCompanion.create(eventEmployeeCompanion);
-    });
-  }
+    const idEventEmployee = await EventEmployee.findOne({ where: { idEvent: event.id, idEmployee: idEmployee } });
+    console.log(idEventEmployee.dataValues);
 
-  async createCompanionsPopulateArray(companions) {
     const existsCompanions = [];
-    
-    companions.forEach(element => {
-      const companionExists = await getCompanionByName(element.name);
+
+    for (const [index, element] of companions.entries())
+    {
+      console.log(element, 'elemnt')
+      const companionExists = await Companion.findOne({ where: { name: element.name } });
 
       if (companionExists)
       {
         existsCompanions.push({ id: companionExists.dataValues.id });
-        companions.filter(function(value) { return value != element; });
       }
       else
       {
-        await Companion.create(element.name);
-        existsCompanions.push(await getCompanionByName(element.name).dataValues.id);
-      }
-    });
+        const companion = {
+          name: element.name
+        }
 
-    return existsCompanions;
+        await Companion.create(companion);
+        const insertedCompanion = await Companion.findOne({ where: { name: element.name } });
+        existsCompanions.push(insertedCompanion.dataValues.id);
+      }
+    }
+
+    console.log(existsCompanions)
+
+    await existsCompanions.map(async (element) => {
+      const eventEmployeeCompanion = {
+        idEventEmployee: idEventEmployee.dataValues.id,
+        idCompanion: element.id,
+      }
+
+      await EventEmployeeCompanion.create(eventEmployeeCompanion);
+    });
   }
 
   async createEmployeeReturnId(employee) {
@@ -77,27 +90,12 @@ class EmployeeController {
     return await Employee.findOne({ where: { email: employee.email } }).dataValues.id;
   }
 
-  async createEventEmployeeReturnId(idEvent, idEmployee) {
-    const eventEmployee = {
-      idEvent: idEvent,
-      idEmployee: idEmployee
-    }
-
-    await EventEmployee.create(eventEmployee, { w: 1 }, { returning: true });
-
+  async getEventEmployeeByIds(idEmployee, idEvent) {
     return await EventEmployee.findOne({ where: { idEvent: idEvent, idEmployee: idEmployee } }).dataValues.id;
   }
 
-  async getCompanionByName(name) {
-    return await Companion.findOne({ where: { name: name } });
-  }
-
-  async getEventEmployeeByIds(idEmployee, idEvent) {
-    return await EventEmployee.findOne({ where: { idEvent: idEvent, idEmployee: idEmployee } });
-  }
-
   async deleteEventsEmployeeCompanionByIdEmployee(idEventEmployee) {
-    await EventEmplooyeeCompanion.destroy({
+    await EventEmployeeCompanion.destroy({
       where : { idEventEmployee: idEventEmployee }
     });
   }
