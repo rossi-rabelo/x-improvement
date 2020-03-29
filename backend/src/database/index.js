@@ -2,9 +2,9 @@ import Sequelize from 'sequelize';
 
 import databaseConfig from '../config/database';
 
-import User from '../app/models/Users';
-import Event from '../app/models/Events';
-import Employee from '../app/models/Employees';
+import User from '../app/models/User';
+import Event from '../app/models/Event';
+import Employee from '../app/models/Employee';
 import EventEmployeeCompanion from '../app/models/EventEmployeeCompanion'
 import EventEmployee from '../app/models/EventEmployee'
 import Companion from '../app/models/Companion'

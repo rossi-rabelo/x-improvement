@@ -1,8 +1,8 @@
-import Employee from '../models/Employees';
+import Employee from '../models/Employee';
 import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
 import Companion from '../models/Companion';
 import EventEmployee from '../models/EventEmployee';
-import Events from '../models/Events';
+import Events from '../models/Event';
 
 class EmployeeController {
   async store(req, res) {
