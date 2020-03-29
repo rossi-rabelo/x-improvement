@@ -13,7 +13,6 @@ routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.get('/events', EventController.index);
-routes.get('/events/:id', EventController.index);
 
 routes.post('/employees', EmployeeController.store);
 
@@ -23,6 +22,5 @@ routes.put('/users', UserController.update);
 
 routes.post('/events', EventController.store);
 routes.put('/events', EventController.update);
-
 
 export default routes;
