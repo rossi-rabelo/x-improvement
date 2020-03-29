@@ -22,18 +22,17 @@ description varchar(100),
 place varchar(100));
 
 create table eventsEmployees
-(idEvent varchar(32) not null,
-idEmployee varchar(32) not null,
-primary key (idEvent, idEmployee));
+(id varchar(32) not null primary key,
+idEvent varchar(32) not null,
+idEmployee varchar(32) not null);
 
 alter table eventsEmployees add foreign key (idEvent) references events(id);
 alter table eventsEmployees add foreign key (idEmployee) references employees(id);
 
 create table eventsEmployeesCompanions
-(idEvent varchar(32) not null,
-idEmployee varchar(32) not null,
-idCompanion varchar(32) not null);
+(idEventEmployee varchar(32) not null,
+idCompanion varchar(32) not null,
+primary key (idEventEmployee, idCompanion));
 
-alter table eventsEmployeesCompanions add foreign key (idEvent) references events(id);
-alter table eventsEmployeesCompanions add foreign key (idEmployee) references employees(id);
+alter table eventsEmployeesCompanions add foreign key (idEventEmployee) references eventsEmployees(id);
 alter table eventsEmployeesCompanions add foreign key (idCompanion) references companions(id);
