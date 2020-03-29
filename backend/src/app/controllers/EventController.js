@@ -1,12 +1,7 @@
 import * as Yup from 'yup';
 
 import Event from '../models/Event';
-import DataBase from '../../database/index'
-import Employee from '../models/Employee';
-import EventEmployee from '../models/EventEmployee';
-import Companion from '../models/Companion';
-import EventEmployeeCompanion from '../models/EventEmployeeCompanion';
-import sequelize, { Sequelize } from 'sequelize';
+import DataBase from '../../database/index';
 
 class EventController {
   async store(req, res) {
@@ -59,14 +54,13 @@ class EventController {
   }
 
   async index(req, res) {
-    
   const selectQuery = " select e.id eventId, e.name eventName, e.maxCompanion eventCompanion, e.description eventDescription, employees.id employeeId, employees.email employeeEmail, employees.name employeeName, c.id companionId, c.name companionName " +
-  "from " +
-  "events e " +
-  "inner join eventsemployees ee on e.id = ee.idEvent " +
-  "inner join employees on ee.idEmployee = employees.id  " +
-  "inner join eventsemployeescompanions eec on eec.idEventEmployee = ee.id " +
-  "inner join companions c on eec.idCompanion = c.id ";
+                      "from " +
+                      "events e " +
+                      "inner join eventsemployees ee on e.id = ee.idEvent " +
+                      "inner join employees on ee.idEmployee = employees.id  " +
+                      "inner join eventsemployeescompanions eec on eec.idEventEmployee = ee.id " +
+                      "inner join companions c on eec.idCompanion = c.id ";
   const event = await DataBase.connection.query(selectQuery);
   const eventArray = [];
   const employeeArray = [];
