@@ -8,6 +8,7 @@ class Event extends Model {
         maxCompanion: Sequelize.INTEGER,
         description: Sequelize.STRING,
         place: Sequelize.STRING,
+        image: Sequelize.STRING,
       },
       {
         sequelize,

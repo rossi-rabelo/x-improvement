@@ -23,4 +23,6 @@ routes.put('/users', UserController.update);
 routes.post('/events', EventController.store);
 routes.put('/events', EventController.update);
 
+routes.delete('/employee/:idEmployee/:idEvent', EmployeeController.delete);
+
 export default routes;

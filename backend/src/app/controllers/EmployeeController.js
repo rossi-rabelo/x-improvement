@@ -82,6 +82,25 @@ class EmployeeController {
 
     return res.json({ employee: employeeExits, eventEmployee: eventEmployee, companions: existsCompanions, eventEmployeeCompanion: existsEventEmployeeCompanion });
   }
+
+  async delete(req, res) {
+    const idEmployee = req.params.idEmployee.replace('idEmployee=', '');
+    const idEvent = req.params.idEvent.replace('idEvent=', '');
+
+    console.log(idEmployee, 'idemployee')
+
+    const employeeInEvent = await EventEmployee.findOne({ where: { idEvent: idEvent, idEmployee: idEmployee } });
+
+    if (employeeInEvent)
+    {
+      console.log(employeeInEvent.dataValues.id, 'employee in event')
+      await EventEmployeeCompanion.destroy({ where : { idEventEmployee: employeeInEvent.dataValues.id } });
+      await EventEmployee.destroy({ where : { idEmployee: employeeInEvent.dataValues.idEmployee, idEvent: idEvent } });
+      res.sendStatus(200);
+    }
+
+    return  res.status(400).json({ error: 'Nothing to delete!' });
+  }
 }
 
 export default new EmployeeController();
