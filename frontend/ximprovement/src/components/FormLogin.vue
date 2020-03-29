@@ -18,6 +18,14 @@
 <script>
 export default {
   name: 'FormLogin',
+  computed: {
+    formLogin: function () {
+      return {
+        email: this.loginInformations.email,
+        password: this.loginInformations.password
+      }
+    }
+  },
   props: {
     loginInformations: {
       type: Object,
@@ -37,7 +45,16 @@ export default {
       if (this.loginInformations.email === '' || this.loginInformations.password === '') {
         this.loginFailed(this.incorrectFieldMessage)
       } else {
-        this.$emit('authenticated')
+        this.$q.loading.show({
+          delay: 400 // ms
+        })
+        this.$axios.post('http://localhost:3333/sessions', this.formLogin).then((response) => {
+          this.$q.loading.hide()
+          console.log(response)
+          this.$emit('authenticated')
+        }).catch((err) => {
+          console.error(err)
+        })
       }
     },
     loginFailed (message) {
