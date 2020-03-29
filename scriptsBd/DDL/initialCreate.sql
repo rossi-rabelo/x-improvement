@@ -1,8 +1,7 @@
 create table employees
 (id varchar(32) not null primary key default replace(uuid(), '-', ''),
 name varchar(100) not null,
-email varchar(100) not null unique,
-maxCompanion int not null default 1);
+email varchar(100) not null unique);
 
 
 create table companions
@@ -19,7 +18,8 @@ create table events
 maxCompanion int not null default 0,
 name varchar(100) not null unique,
 description varchar(100),
-place varchar(100));
+place varchar(100),
+image varchar(200) not null);
 
 create table eventsEmployees
 (id varchar(32) not null primary key default replace(uuid(), '-', ''),

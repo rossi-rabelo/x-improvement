@@ -1,1 +1,0 @@
-insert into employees (id, name, email) values (replace(UUID(), '-', ''), 'Pedro Severino de Menezes Neto', 'pedroneto@landix.com.br');
