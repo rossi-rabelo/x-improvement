@@ -1,19 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('eventsEmployeesCompanions', {
-      idEvent: {
+      idEventEmployee: {
         type: Sequelize.STRING(32),
         allowNull: false,
         references: {
-          model: 'events',
-          key: 'id',
-        },
-      },
-      idEmployee: {
-        type: Sequelize.STRING(32),
-        allowNull: false,
-        references: {
-          model: 'employees',
+          model: 'eventsEmployees',
           key: 'id',
         },
       },

@@ -1,6 +1,9 @@
 import * as Yup from 'yup';
-import Event from '../models/Events';
-import Employee from '../models/Employees';
+
+import Event from '../models/Event';
+import Employee from '../models/Employee';
+import EventEmployee from '../models/EventEmployee';
+import Companion from '../models/Companion';
 
 class EventController {
   async store(req, res) {
@@ -53,21 +56,22 @@ class EventController {
   }
 
   async index(req, res) {
-    const { id } = req.params;
-
-    if (!id) {
-      const events = await Event.findAll({
-        attributes: ['id', 'name', 'description', 'place'],
-      });
-
-      return res.json(events);
-    }
-
-    const event = await Event.findOne({
-      where: { id },
+    const event = await Event.findAll({
       include: [
         {
           model: Employee,
+          through: { attributes: [] },
+          include: [
+            {
+              model: EventEmployee,
+              include: [
+                {
+                  model: Companion,
+                },
+              ],
+              // through: { attributes: [] },
+            },
+          ],
         },
       ],
     });

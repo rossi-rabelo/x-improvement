@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
-import Employee from '../models/Employees';
+
+import Employee from '../models/Employee';
 
 class EmployeeController {
   async store(req, res) {
@@ -7,23 +8,24 @@ class EmployeeController {
     const companions = req.body.Companions;
     const event = req.body.Event;
 
-    console.log(employee, 'employee')
-    console.log(employee.email, 'email')
+    console.log(employee, 'employee');
+    console.log(employee.email, 'email');
 
-    const employeeExits = await Employee.findOne({ where: { email: employee.email } });
+    const employeeExits = await Employee.findOne({
+      where: { email: employee.email },
+    });
 
-    if (employeeExits)
-    {
+    if (employeeExits) {
       const idEmployee = employeeExits.dataValues.id;
-      
-      companions.forEach(element => {
+
+      companions.forEach((element) => {
         console.log(element, 'element');
       });
     }
 
-    console.log(employeeExits.dataValues.id, 'employeeExits')
-    console.log(companions, 'companions')
-    console.log(event, 'event')
+    console.log(employeeExits.dataValues.id, 'employeeExits');
+    console.log(companions, 'companions');
+    console.log(event, 'event');
   }
 }
 
