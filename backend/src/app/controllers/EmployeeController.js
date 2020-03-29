@@ -95,7 +95,7 @@ class EmployeeController {
     {
       console.log(employeeInEvent.dataValues.id, 'employee in event')
       await EventEmployeeCompanion.destroy({ where : { idEventEmployee: employeeInEvent.dataValues.id } });
-      const eventEmployeeDelete = await EventEmployee.destroy({ where : { idEmployee: employeeInEvent.dataValues.idEmployee, idEvent: idEvent } });
+      await EventEmployee.destroy({ where : { idEmployee: employeeInEvent.dataValues.idEmployee, idEvent: idEvent } });
       res.sendStatus(200);
     }
 
