@@ -1,10 +1,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('eventsEmployees', {
-      idEvent: {
+      id: {
         type: Sequelize.STRING(32),
         allowNull: false,
         primaryKey: true,
+        defaultValue: Sequelize.literal("REPLACE(UUID(),'-','')"),
+      },
+      idEvent: {
+        type: Sequelize.STRING(32),
+        allowNull: false,
         references: {
           model: 'events',
           key: 'id',
@@ -13,7 +18,6 @@ module.exports = {
       idEmployee: {
         type: Sequelize.STRING(32),
         allowNull: false,
-        primaryKey: true,
         references: {
           model: 'employees',
           key: 'id',

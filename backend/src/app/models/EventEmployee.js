@@ -15,6 +15,23 @@ class EventEmployee extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsToMany(models.Companion, {
+      through: 'eventsEmployeesCompanions',
+      foreignKey: 'idEventEmployee',
+    });
+
+    // this.belongsToMany(models.Companion, {
+    //   through: 'eventsEmployees',
+    //   foreignKey: 'idEvent',
+    // });
+
+    this.hasMany(models.Employee, {
+      foreignKey: 'id',
+    });
+  }
 }
 
 export default EventEmployee;
+

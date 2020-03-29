@@ -6,6 +6,7 @@
       :eventInformation="event"
       @showGuestList="showGuestList"
       @showSubscriptionDialog="showSubscriptionDialog"
+      @hideGuestList="hideGuestList"
     />
     <subscription-dialog
       v-model="dialogModel"
@@ -37,23 +38,28 @@ export default {
           guestList: [
             {
               id: '1',
-              name: 'Galego Borges'
+              name: 'Galego Borges',
+              companions: ['Agnes', 'Maria']
             },
             {
               id: '2',
-              name: 'Douglas Boy'
+              name: 'Douglas Boy',
+              companions: []
             },
             {
               id: '3',
-              name: 'Peter Heineken'
+              name: 'Peter Heineken',
+              companions: []
             },
             {
               id: '4',
-              name: 'Felipe Forgot'
+              name: 'Felipe Forgot',
+              companions: []
             },
             {
               id: '5',
-              name: 'Lucas Farofa'
+              name: 'Lucas Farofa',
+              companions: []
             }
           ]
         }
@@ -65,11 +71,14 @@ export default {
       const guestList = this.events.find((element) => {
         return element.id === eventId
       }).guestList
-      this.$emit('showGuestList', guestList)
+      this.$emit('showGuestList', guestList, eventId)
     },
     showSubscriptionDialog (event) {
       this.dialogModel = true
       this.selectedEvent = event
+    },
+    hideGuestList () {
+      this.$emit('hideGuestList')
     }
   }
 }

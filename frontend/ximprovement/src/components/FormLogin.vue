@@ -37,7 +37,7 @@ export default {
       if (this.loginInformations.email === '' || this.loginInformations.password === '') {
         this.loginFailed(this.incorrectFieldMessage)
       } else {
-
+        this.$emit('authenticated')
       }
     },
     loginFailed (message) {
