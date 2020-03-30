@@ -4,8 +4,8 @@ Projeto desenvolvido para inscrição da equipe no X-Improvement da Landix Siste
 
 ## Requisitos
 
-Node 10.16.3
-Yarn 1.16.0
+* Node 10.16.3
+* Yarn 1.16.0
 
 ## Banco de Dados < MariaDB >
 
