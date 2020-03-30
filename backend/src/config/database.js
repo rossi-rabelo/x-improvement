@@ -1,9 +1,9 @@
 module.exports = {
   dialect: 'mariadb',
   host: 'localhost',
-  port: 3306,
+  port: 3307,
   username: 'root',
-  password: '',
+  password: 'gokussj5',
   database: 'x_improvement',
   define: {
     timestamps: false,

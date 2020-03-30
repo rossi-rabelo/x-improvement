@@ -67,52 +67,77 @@ class EventController {
       'events e ';
     const event = await DataBase.connection.query(selectQuery);
     const eventArray = [];
-    const employeeArray = [];
-    const companionArray = [];
 
-    event[0].forEach((elem) => {
-      if (
-        !companionArray.find(function (element) {
-          return element.id == elem.companionId;
-        })
-        && elem.companionId
-      ) {
-        companionArray.push({ id: elem.companionId, name: elem.companionName });
-      }
-    });
-
-    event[0].forEach((elem) => {
-      if (
-        !employeeArray.find(function (element) {
-          return element.id == elem.employeeId;
-        })
-        && elem.employeeId
-      ) {
-        employeeArray.push({
-          id: elem.employeeId,
-          name: elem.employeeName,
-          email: elem.employeeEmail,
-          companions: companionArray,
+    event[0].forEach((e) => {
+      let employeeArray = [];
+      let companionArray = [];
+        event[0].forEach((elem) => {
+          if (!companionArray.find(function (element) { return element.id == elem.companionId }) && 
+              // (companionArray.find(function (element) { return element.idEmployee == elem.employeeId }) || companionArray.length == 0) &&
+              // (eventArray.length == 0 || eventArray.find(function (event) { event.employees.find(function (employee) { employee.companions.find(function (companion) { return companion.id == elem.companionId }) }) } )) &&
+              elem.companionId) 
+          {
+            companionArray.push({ id: elem.companionId, name: elem.companionName, idEmployee: elem.employeeId });
+          }
         });
-      }
-    });
-
-    event[0].forEach((elem) => {
-      if (
-        !eventArray.find(function (element) {
-          return element.id == elem.eventId;
-        }) && elem.eventId
-      ) {
-        eventArray.push({
-          id: elem.eventId,
-          name: elem.eventName,
-          description: elem.eventDescription,
-          place: elem.eventPlace,
-          image: elem.eventImage,
-          maxCompanion: elem.eventCompanion,
-          employees: employeeArray,
+  
+        event[0].forEach((elem) => {
+          if (
+            !employeeArray.find(function (element) {
+              return element.id == elem.employeeId;
+            })
+            && (employeeArray.find(function (element) {
+                return element.idEvent == elem.eventId;
+              }) || employeeArray.length == 0)
+            && (companionArray.find(function (element) { return element.idEmployee == elem.employeeId } ))
+            && elem.employeeId
+          )
+          {
+            const tempCompanion = []
+            companionArray.forEach((companion) => {
+              if (companion.idEmployee == elem.employeeId)
+              {
+                tempCompanion.push(companion);
+              }
+            });
+            employeeArray.push({
+              id: elem.employeeId,
+              name: elem.employeeName,
+              email: elem.employeeEmail,
+              companions: tempCompanion,
+              idEvent: elem.eventId
+            });
+          }
         });
-      }
+        companionArray = []
+  
+        event[0].forEach((elem) => {
+          if (
+            !eventArray.find(function (element) {
+              return element.id == elem.eventId;
+            })
+            && (employeeArray.find(function (element) { return element.idEvent == elem.eventId } ))
+            && elem.eventId
+          )
+          {
+            const tempEmployee = [];
+            employeeArray.forEach((employee) => {
+              if (employee.idEvent == elem.eventId)
+              {
+                tempEmployee.push(employee);
+              }
+            });
+            eventArray.push({
+              id: elem.eventId,
+              name: elem.eventName,
+              description: elem.eventDescription,
+              place: elem.eventPlace,
+              image: elem.eventImage,
+              maxCompanion: elem.eventCompanion,
+              employees: tempEmployee,
+            });
+          }
+       });
     });
 
     return res.json(eventArray);
