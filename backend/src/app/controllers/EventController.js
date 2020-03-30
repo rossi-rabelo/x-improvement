@@ -72,9 +72,7 @@ class EventController {
       let employeeArray = [];
       let companionArray = [];
         event[0].forEach((elem) => {
-          if (!companionArray.find(function (element) { return element.id == elem.companionId }) && 
-              // (companionArray.find(function (element) { return element.idEmployee == elem.employeeId }) || companionArray.length == 0) &&
-              // (eventArray.length == 0 || eventArray.find(function (event) { event.employees.find(function (employee) { employee.companions.find(function (companion) { return companion.id == elem.companionId }) }) } )) &&
+          if (!companionArray.find(function (element) { return element.id == elem.companionId }) &&
               elem.companionId) 
           {
             companionArray.push({ id: elem.companionId, name: elem.companionName, idEmployee: elem.employeeId });
