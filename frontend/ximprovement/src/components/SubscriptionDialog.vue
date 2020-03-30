@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import settings from 'src/statics/axiosSetting'
 export default {
   name: 'SubscriptionDialog',
   created () {
@@ -118,10 +119,10 @@ export default {
       this.$q.loading.show({
         delay: 400 // ms
       })
-      this.$axios.post('http://localhost:3333/employees', this.exitInformations).then((response) => {
+      this.$axios.post(`${settings.baseURL}/employees`, this.exitInformations).then((response) => {
         this.$q.loading.hide()
-        console.log(response)
-        // this.$emit('input', false)
+        this.$emit('reloadEvents')
+        this.$emit('input', false)
       }).catch(() => {
         this.$q.loading.hide()
         this.loginFailed('Não foi possível se inscrever no evento!')

@@ -24,8 +24,8 @@
         <q-card v-if="guest.companions.length > 0">
           <q-card-section>
             <q-list class="full-width">
-              <q-item v-for="(companion, index) in guest.companions" :key="index">
-                <q-item-section>{{ companion }}
+              <q-item v-for="companion in guest.companions" :key="companion.id">
+                <q-item-section>{{ companion.name }}
                 </q-item-section>
               </q-item>
             </q-list>
@@ -40,6 +40,7 @@
       v-model="dialogModel"
       :guest="selectedGuest"
       :eventId="eventId"
+      @removeGuest="removeGuestFromList"
     />
   </div>
 </template>
@@ -84,6 +85,12 @@ export default {
       } else {
         return 'hidden'
       }
+    },
+    removeGuestFromList (guestId) {
+      const guestIndex = this.employees.findIndex((element) => {
+        return element.id === guestId
+      })
+      this.employees.splice(guestIndex, 1)
     }
   }
 }

@@ -11,6 +11,7 @@
     <subscription-dialog
       v-model="dialogModel"
       :event="selectedEvent"
+      @reloadEvents="confirmSubscription"
     />
   </q-page>
 </template>
@@ -18,6 +19,7 @@
 <script>
 import PartyCard from 'src/components/PartyCard'
 import SubscriptionDialog from 'src/components/SubscriptionDialog'
+import settings from 'src/statics/axiosSetting'
 export default {
   name: 'PageIndex',
   components: {
@@ -52,7 +54,7 @@ export default {
       this.$q.loading.show({
         delay: 400 // ms
       })
-      this.$axios.get('http://localhost:3333/events').then((response) => {
+      this.$axios.get(`${settings.baseURL}/events`).then((response) => {
         this.events = response.data
         this.$q.loading.hide()
       }).catch(() => {
@@ -68,6 +70,17 @@ export default {
         position: 'top',
         timeout: 300
       })
+    },
+    confirmSubscription () {
+      this.$q.notify({
+        color: 'positive',
+        textColor: 'white',
+        icon: 'fas fa-info',
+        message: 'Sua Inscrição foi realizada com sucesso!',
+        position: 'top',
+        timeout: 300
+      })
+      window.location.reload()
     }
   }
 }
