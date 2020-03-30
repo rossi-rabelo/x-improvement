@@ -17,11 +17,11 @@ class EmployeeController {
       return res.status(400).json({ error: 'Companions exceeded!' });
     }
 
-    const employeeExits = await Employee.findOne({ where: { email: employee.email } });
+    let employeeExits = await Employee.findOne({ where: { email: employee.email } });
 
     if (!employeeExits)
     {
-      employeeExits = await Employee.create(employee);
+      await Employee.create(employee);
       employeeExits = await Employee.findOne({ where: { email: employee.email } });
     }
 
