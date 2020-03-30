@@ -33,3 +33,9 @@ npm install
 npm install -g @quasar/cli
 quasar dev
 ```
+## Credenciais do Sistema
+
+As credenciais para acessar o sistema e obter permissão para exclusão: 
+
+* Email: gente@landix.com.br
+* Password: admin123
