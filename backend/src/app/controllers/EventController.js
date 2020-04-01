@@ -140,8 +140,6 @@ class EventController {
        });
     });
 	
-	console.log(eventArray);
-
     return res.json(eventArray);
   }
 }
