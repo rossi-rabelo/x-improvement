@@ -7,8 +7,9 @@ class EventController {
     const schema = Yup.object().shape({
       name: Yup.string().required().max(100),
       maxCompanion: Yup.number().required(),
-      description: Yup.string().max(100),
+      description: Yup.string().max(700),
       place: Yup.string().max(100),
+	  image: Yup.string().max(200),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -67,7 +68,7 @@ class EventController {
       'events e ';
     const event = await DataBase.connection.query(selectQuery);
     const eventArray = [];
-
+	
     event[0].forEach((e) => {
       let employeeArray = [];
       let companionArray = [];
@@ -111,10 +112,11 @@ class EventController {
   
         event[0].forEach((elem) => {
           if (
-            !eventArray.find(function (element) {
+            (!eventArray.find(function (element) {
               return element.id == elem.eventId;
-            })
-            && (employeeArray.find(function (element) { return element.idEvent == elem.eventId } ))
+            }) 
+			|| eventArray.length == 0)
+            && (employeeArray.find(function (element) { return element.idEvent == elem.eventId } ) || eventArray.length == 0)
             && elem.eventId
           )
           {
@@ -137,6 +139,8 @@ class EventController {
           }
        });
     });
+	
+	console.log(eventArray);
 
     return res.json(eventArray);
   }

@@ -3,7 +3,7 @@ module.exports = {
   host: 'localhost',
   port: 3307,
   username: 'root',
-  password: 'gokussj5',
+  password: 'desenvolvedeiros',
   database: 'x_improvement',
   define: {
     timestamps: false,
