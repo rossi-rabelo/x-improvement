@@ -11,6 +11,7 @@
     <subscription-dialog
       v-model="dialogModel"
       :event="selectedEvent"
+      @reloadEvents="confirmSubscription"
     />
   </q-page>
 </template>
@@ -18,60 +19,29 @@
 <script>
 import PartyCard from 'src/components/PartyCard'
 import SubscriptionDialog from 'src/components/SubscriptionDialog'
+import settings from 'src/statics/axiosSetting'
 export default {
   name: 'PageIndex',
   components: {
     'party-card': PartyCard,
     'subscription-dialog': SubscriptionDialog
   },
+  created () {
+    this.getEventList()
+  },
   data () {
     return {
       dialogModel: false,
       selectedEvent: {},
-      events: [
-        {
-          id: '1',
-          image: 'https://www.cidadaocultura.com.br/wp-content/uploads/2018/01/fundos_de_ecra_de_festas_4.jpg',
-          name: 'Landix 21 Anos',
-          description: 'Prepare-se para esse evento super legal, cheio de coisas legais, bebidas legais, e bandas legais, vai ser extremamente legal.',
-          companionsNumber: 2,
-          guestList: [
-            {
-              id: '1',
-              name: 'Galego Borges',
-              companions: ['Agnes', 'Maria']
-            },
-            {
-              id: '2',
-              name: 'Douglas Boy',
-              companions: []
-            },
-            {
-              id: '3',
-              name: 'Peter Heineken',
-              companions: []
-            },
-            {
-              id: '4',
-              name: 'Felipe Forgot',
-              companions: []
-            },
-            {
-              id: '5',
-              name: 'Lucas Farofa',
-              companions: []
-            }
-          ]
-        }
-      ]
+      events: []
     }
   },
   methods: {
     showGuestList (eventId) {
-      const guestList = this.events.find((element) => {
+      const employees = this.events.find((element) => {
         return element.id === eventId
-      }).guestList
-      this.$emit('showGuestList', guestList, eventId)
+      }).employees
+      this.$emit('showGuestList', employees, eventId)
     },
     showSubscriptionDialog (event) {
       this.dialogModel = true
@@ -79,6 +49,38 @@ export default {
     },
     hideGuestList () {
       this.$emit('hideGuestList')
+    },
+    getEventList () {
+      this.$q.loading.show({
+        delay: 400 // ms
+      })
+      this.$axios.get(`${settings.baseURL}/events`).then((response) => {
+        this.events = response.data
+        this.$q.loading.hide()
+      }).catch(() => {
+        this.errorMessage('Não foi possível obter a lista de eventos.')
+      })
+    },
+    errorMessage (message) {
+      this.$q.notify({
+        color: 'negative',
+        textColor: 'white',
+        icon: 'fas fa-info',
+        message: message,
+        position: 'top',
+        timeout: 300
+      })
+    },
+    confirmSubscription () {
+      this.$q.notify({
+        color: 'positive',
+        textColor: 'white',
+        icon: 'fas fa-info',
+        message: 'Sua Inscrição foi realizada com sucesso!',
+        position: 'top',
+        timeout: 300
+      })
+      window.location.reload()
     }
   }
 }

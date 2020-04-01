@@ -3,11 +3,11 @@
     <div class="row text-h6 q-pa-md text-center text-white guestListTitle">
       Lista de confirmados:
     </div>
-    <div class="row">
+    <div v-if="employees.length > 0" class="row">
       <q-expansion-item
         class="full-width"
         dense-toggle
-        v-for="guest in guestList"
+        v-for="guest in employees"
         :key="guest.id"
         header-class="bg-primary text-white"
         expand-separator
@@ -24,8 +24,8 @@
         <q-card v-if="guest.companions.length > 0">
           <q-card-section>
             <q-list class="full-width">
-              <q-item v-for="(companion, index) in guest.companions" :key="index">
-                <q-item-section>{{ companion }}
+              <q-item v-for="companion in guest.companions" :key="companion.id">
+                <q-item-section>{{ companion.name }}
                 </q-item-section>
               </q-item>
             </q-list>
@@ -33,10 +33,14 @@
         </q-card>
       </q-expansion-item>
     </div>
+    <div v-else class="text-white q-pa-md">
+      Ainda não há pessoas confirmadas para esse evento.
+    </div>
     <dialog-remove
       v-model="dialogModel"
       :guest="selectedGuest"
       :eventId="eventId"
+      @removeGuest="removeGuestFromList"
     />
   </div>
 </template>
@@ -49,7 +53,7 @@ export default {
     'dialog-remove': DialogRemoveGuest
   },
   props: {
-    guestList: {
+    employees: {
       type: Array,
       default: () => {
         return []
@@ -81,6 +85,12 @@ export default {
       } else {
         return 'hidden'
       }
+    },
+    removeGuestFromList (guestId) {
+      const guestIndex = this.employees.findIndex((element) => {
+        return element.id === guestId
+      })
+      this.employees.splice(guestIndex, 1)
     }
   }
 }

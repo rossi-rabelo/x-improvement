@@ -12,6 +12,9 @@
         <div class="full-width descriptionBody text-body1">
           {{ eventInformation.description }}
         </div>
+        <ul>
+          <li class="text-bold">Endereço: {{ eventInformation.place }}</li>
+        </ul>
         <q-separator class="q-my-xs" color="grey"/>
         <div class="row q-mt-md justify-between">
           <div class="col-xs-12 col-md-6 text-left q-pr-sm">

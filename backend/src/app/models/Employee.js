@@ -6,7 +6,6 @@ class Employee extends Model {
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
-        maxCompanion: Sequelize.INTEGER,
       },
       {
         sequelize,

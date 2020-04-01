@@ -17,8 +17,8 @@ export default {
   },
   methods: {
     logout () {
-      if (this.$q.localStorage.has('authenticated')) {
-        this.$q.localStorage.remove('authenticated')
+      if (this.$q.localStorage.has('authtoken')) {
+        this.$q.localStorage.remove('authtoken')
       }
       this.$emit('logout')
     }

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import settings from 'src/statics/axiosSetting'
 export default {
   name: 'FormLogin',
   computed: {
@@ -48,12 +49,13 @@ export default {
         this.$q.loading.show({
           delay: 400 // ms
         })
-        this.$axios.post('http://localhost:3333/sessions', this.formLogin).then((response) => {
+        this.$axios.post(`${settings.baseURL}/sessions`, this.formLogin).then((response) => {
           this.$q.loading.hide()
-          console.log(response)
+          this.$q.localStorage.set('authtoken', response.data.token)
           this.$emit('authenticated')
-        }).catch((err) => {
-          console.error(err)
+        }).catch(() => {
+          this.$q.loading.hide()
+          this.loginFailed('Não foi possível logar com essas informações!')
         })
       }
     },
